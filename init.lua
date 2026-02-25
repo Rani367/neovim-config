@@ -6,45 +6,13 @@ vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 vim.o.expandtab = true
 vim.pack.add({
-    { src = "https://github.com/joshdick/onedark.vim.git" },
     { src = "https://github.com/neovim/nvim-lspconfig.git" },
-    { src = "https://github.com/seblyng/roslyn.nvim.git" },
-    { src = "https://github.com/saghen/blink.cmp.git" },
-    { src = "https://github.com/echasnovski/mini.pairs.git" },
 })
-vim.cmd("colorscheme onedark")
+vim.cmd.colorscheme("habamax")
 vim.cmd("hi statusline guibg=NONE")
-vim.api.nvim_create_autocmd("BufWritePre", {
-    callback = function()
-        vim.lsp.buf.format()
-    end,
-})
 ----------------------------------------------------------------------
 -- LSP
 ----------------------------------------------------------------------
-vim.lsp.enable({ 'lua_ls', 'clangd', 'basedpyright', 'ruff', 'roslyn' })
-require('roslyn').setup()
-require('mini.pairs').setup()
-require('blink.cmp').setup({
-    keymap = { preset = 'super-tab' },
-    completion = { documentation = { auto_show = false } },
-    sources = { default = { 'lsp', 'path', 'snippets' } },
-})
--- Disable ruff hover so basedpyright handles it
-vim.api.nvim_create_autocmd('LspAttach', {
-    callback = function(ev)
-        local client = vim.lsp.get_client_by_id(ev.data.client_id)
-        if client and client.name == 'ruff' then
-            client.server_capabilities.hoverProvider = false
-        end
-        local opts = { buffer = ev.buf }
-        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-        vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-        vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-        vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
-    end,
-})
 ----------------------------------------------------------------------
 -- Netrw file hiding (press 'a' in netrw to toggle visibility)
 ----------------------------------------------------------------------
