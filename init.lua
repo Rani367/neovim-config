@@ -9,7 +9,7 @@ vim.pack.add({
     { src = "https://github.com/neovim/nvim-lspconfig.git" },
 })
 vim.cmd.colorscheme("habamax")
-vim.cmd("hi statusline guibg=NONE")
+vim.cmd("hi statusline guibg=NONE guifg=#bcbcbc")
 ----------------------------------------------------------------------
 -- LSP
 ----------------------------------------------------------------------
