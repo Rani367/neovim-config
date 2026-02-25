@@ -7,12 +7,23 @@ vim.o.shiftwidth = 4
 vim.o.expandtab = true
 vim.pack.add({
     { src = "https://github.com/neovim/nvim-lspconfig.git" },
+    { src = "https://github.com/saghen/blink.cmp.git" },
+    { src = "https://github.com/nvim-treesitter/nvim-treesitter.git" },
+    { src = "https://github.com/nvim-mini/mini.nvim.git" },
 })
 vim.cmd.colorscheme("habamax")
 vim.cmd("hi statusline guibg=NONE guifg=#bcbcbc")
+require("mini.cursorword").setup({})
+require("mini.indentscope").setup({})
 ----------------------------------------------------------------------
--- LSP
+-- LSP, treesitter, and completion
 ----------------------------------------------------------------------
+vim.lsp.enable("lua_ls")
+require("nvim-treesitter").install({ "lua", "c", "python" })
+require("blink.cmp")
+vim.api.nvim_create_autocmd("FileType", {
+    callback = function() vim.treesitter.start() end,
+})
 ----------------------------------------------------------------------
 -- Netrw file hiding (press 'a' in netrw to toggle visibility)
 ----------------------------------------------------------------------
